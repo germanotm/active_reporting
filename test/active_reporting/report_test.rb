@@ -31,4 +31,8 @@ class ActiveReporting::ReportTest < Minitest::Test
     refute data.empty?
     assert data.all? { |r| r.key?('a_metric') }
   end
+
+  def test_count_return_number_of_rows
+    assert_equal 2, @report.count
+  end
 end

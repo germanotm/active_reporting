@@ -31,7 +31,20 @@ module ActiveReporting
       @run ||= build_data
     end
 
+    # Number of rows that matches the report criteria
+    #
+    # @return [Integer]
+    def count
+      @count ||= count_data
+    end
+
     private ######################################################################
+
+    def count_data
+      query = "SELECT COUNT(*) FROM (#{statement.to_sql}) T"
+      result = model.connection.exec_query(query)
+      result.first["COUNT(*)"]
+    end
 
     def build_data
       @data = model.connection.exec_query(statement.to_sql).to_hash
